@@ -1,17 +1,36 @@
 import React from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import winterDawn from '../assets/images/winter_dawn.jpg';
+import winterBright from '../assets/images/winter_bright.jpg';
 import '../styles/Hero.css';
 
-const Hero = () => {
+const Hero: React.FC = () => {
+  const { scrollYProgress } = useScroll();
+
+  // 첫 번째 이미지: 0에서 200vw까지 오른쪽으로 이동
+  const firstX = useTransform(scrollYProgress, [0, 1], ['0vw', '200vw']);
+  // 두 번째 이미지: -100vw에서 100vw까지 오른쪽으로 이동
+  const secondX = useTransform(scrollYProgress, [0, 1], ['-100vw', '100vw']);
+
   return (
-    <section id="home" className="hero">
+    <section className="hero">
+      <div className="image-container">
+        <motion.img
+          src={winterDawn}
+          alt="Slide 1"
+          className="hero-image"
+          style={{ x: firstX }}
+        />
+        <motion.img
+          src={winterBright}
+          alt="Slide 2"
+          className="hero-image"
+          style={{ x: secondX }}
+        />
+      </div>
       <div className="hero-content">
-        <h1>Hi, I'm <span className="highlight">Your Name</span></h1>
-        <h2>Full Stack Developer</h2>
-        <p>I build exceptional digital experiences</p>
-        <div className="cta-buttons">
-          <a href="#projects" className="btn primary">View My Work</a>
-          <a href="#contact" className="btn secondary">Contact Me</a>
-        </div>
+        <h1>Welcome to My Portfolio</h1>
+        <p>Scroll down to explore</p>
       </div>
     </section>
   );
